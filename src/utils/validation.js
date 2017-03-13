@@ -10,3 +10,17 @@ export function checkEmail(email = '') {
   const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return re.test(email);
 }
+
+/*
+ * Check string length
+ *
+ * @param {email} string
+ *
+ */
+export function checkLength(str = '', min = 20, max = 50) {
+  // Already have missing error
+  if (typeof str !== 'string') return false;
+  if (str.length < min) return false;
+  if (str.length > max) return false;
+  return true;
+}

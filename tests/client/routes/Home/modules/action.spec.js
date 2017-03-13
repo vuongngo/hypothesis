@@ -16,7 +16,7 @@ import {
 
 describe('(Action Creator Module) Home', () => {
   it('Should return right type and payload from setEmail ', () => {
-    expect(setEmail('test')).to.deep.equal({ type: SET_EMAIL, payload: 'test' });
+    expect(setEmail('email', 'test')).to.deep.equal({ type: SET_EMAIL, key: 'email', payload: 'test' });
   });
 
   it('Should return right type from subscribe ', () => {

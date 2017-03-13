@@ -39,12 +39,12 @@ export default class SendgridTransport {
 
     // CC
     if (mailOptions.cc) {
-      body.personalization[0].cc = this.sendDes(mailOptions.cc);
+      body.personalizations[0].cc = this.sendDes(mailOptions.cc);
     }
 
     // BCC
     if (mailOptions.bcc) {
-      body.personalization[0].bcc = this.sendDes(mailOptions.bcc);
+      body.personalizations[0].bcc = this.sendDes(mailOptions.bcc);
     }
 
     this.options.body = JSON.stringify(body);
@@ -57,11 +57,15 @@ export default class SendgridTransport {
   }
 
   sendDes(des) {
+    if (!des) return;
+    let emails;
     // Eg ['a@mail', 'b@mail']
     if (des instanceof Array) {
-      return des.map((x) => {email: x});
+      emails = des;
+    } else {
+      emails = des.split(',').map(x => x.trim());
     }
-    return [{email: des}];
+    return emails.map((x) => { return { email: x }; });
   }
 };
 

@@ -9,6 +9,14 @@ import bodyParser from 'body-parser';
 sinonStubPromise(sinon);
 describe('POST /api/mail', () => {
   let app;
+  const validData = {
+    from: 'test@test.com',
+    to: 'test@test.com',
+    cc: 'test@test.com',
+    bcc: 'test@test.com',
+    subject: 'This is a short text',
+    body: 'This is a short text.This is a short text.This is a short text'
+  };
   before(() => {
     app = express();
     const router = express.Router();
@@ -30,7 +38,7 @@ describe('POST /api/mail', () => {
     request(app)
       .post('/api/email')
       .set('Accept', 'application/json')
-      .send({ email: 'test@test.com' })
+      .send(validData)
       .expect(202, { message: 'Pass' }, done);
   });
 
@@ -43,7 +51,7 @@ describe('POST /api/mail', () => {
     request(app)
       .post('/api/email')
       .set('Accept', 'application/json')
-      .send({ email: 'test@test.com' })
+      .send(validData)
       .expect(500, { error: 'Failed to send email' }, done);
   });
 
@@ -51,6 +59,6 @@ describe('POST /api/mail', () => {
     request(app)
       .post('/api/email')
       .set('Accept', 'application/json')
-      .expect(400, { message: 'Invalid email' }, done);
+      .expect(400, { message: 'Invalid email from. Invalid email to. Subject must be more than 10 characters. Body must be more than 20 characters' }, done);
   });
 });

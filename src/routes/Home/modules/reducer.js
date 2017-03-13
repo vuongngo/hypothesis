@@ -9,7 +9,7 @@ import {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_EMAIL]    : (state, action) => Object.assign({}, state, { email: action.payload, errors: [], generalError: {} }),
+  [SET_EMAIL]    : (state, action) => Object.assign({}, state, { [action.key]: action.payload, errors: [], generalError: {} }),
   [EMAIL_SUCCESS]: (state, action) => Object.assign({}, state, { success: true }),
   [FIELD_ERRORS] : setStore('errors'),
   [GENERAL_ERROR] : setStore('generalError')

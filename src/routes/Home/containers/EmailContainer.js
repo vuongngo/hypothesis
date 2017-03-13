@@ -13,7 +13,7 @@ import Email from '../components/Email';
     implementing our wrapper around increment; the component doesn't care   */
 
 const mapDispatchToProps = {
-  setEmail : (e, value) => setEmail(value),
+  setEmail : (key, value) => setEmail(key, value),
   subscribe
 };
 

@@ -14,13 +14,13 @@ describe('(Reducer Module) Home', () => {
   });
 
   it('should return state with new email ', () => {
-    const action = { type: SET_EMAIL, payload: 'test' };
+    const action = { type: SET_EMAIL, key: 'email', payload: 'test' };
     const obj = emailReducer(undefined, action);
     expect(obj).to.deep.equal({ email: 'test', errors: [], generalError: {} });
   });
 
   it('should return state with new email and remove errors ', () => {
-    const action = { type: SET_EMAIL, payload: 'test' };
+    const action = { type: SET_EMAIL, key: 'email', payload: 'test' };
     const state = { email: 'a', errors: [{}], generalError: { message: 'test' } };
     const obj = emailReducer(state, action);
     expect(obj).to.deep.equal({ email: 'test', errors: [], generalError: {} });

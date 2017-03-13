@@ -15,9 +15,10 @@ import {
   * @param {value} string Email
   *
   */
-export function setEmail (value = '') {
+export function setEmail (key = '', value = '') {
   return {
     type    : SET_EMAIL,
+    key: key,
     payload : value
   };
 }

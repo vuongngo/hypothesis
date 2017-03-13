@@ -12,6 +12,7 @@ import {
 import { fetchPr, jsonConfig } from 'utils/api';
 
 describe('(Sagas Module) Home', () => {
+  const validStr = 'Yes, source maps work for me with watchify';
   describe('watchSubscribe ', () => {
     const gen = watchSubscribe();
 
@@ -21,28 +22,25 @@ describe('(Sagas Module) Home', () => {
   });
 
   describe('getEmail ', () => {
-    it('should return error if email is missing from state ', () => {
-      const state = { mail: { email: '' } };
+    it('should return error if to email is missing from state ', () => {
+      const state = { mail: { from: 'test@test.com', cc: 'test@test.com', bcc: 'test@test.com', subject: validStr, body: validStr } };
       const err = [{
-        fieldName: 'email',
-        message: 'Email is required.'
-      }, {
-        fieldName: 'email',
-        message: 'Invalid email.'
+        fieldName: 'to',
+        message: 'To is required.'
       }];
-      expect(getEmail(state)).to.deep.equal({ errors: err, data: {} });
+      expect(getEmail(state)).to.deep.equal({ errors: err, data: Object.assign({}, state.mail) });
     });
 
     it('should return error if email is not valid ', () => {
-      const state = { mail: { email: 'test' } };
-      const err = [{ fieldName: 'email', message: 'Invalid email.' }];
-      expect(getEmail(state)).to.deep.equal({ errors: err, data: { email: 'test' } });
+      const state = { mail: { from: 'test@test.com', to: 'test, test@gmail.com', cc: 'test@test.com', bcc: 'test@test.com', subject: validStr, body: validStr } };
+      const err = [{ fieldName: 'to', message: 'Invalid email.' }];
+      expect(getEmail(state)).to.deep.equal({ errors: err, data: state.mail });
     });
 
     it('should return empty error and data with email ', () => {
-      const state = { mail: { email: 'test@gmail.com' } };
+      const state = { mail: { from: 'test@test.com', to: 'test@test.com, test@gmail.com', cc: 'test@test.com', bcc: 'test@test.com', subject: validStr, body: validStr } };
       const err = [];
-      expect(getEmail(state)).to.deep.equal({ errors: err, data: { email: 'test@gmail.com' } });
+      expect(getEmail(state)).to.deep.equal({ errors: err, data: state.mail });
     });
   });
 

@@ -49,6 +49,7 @@ export default class MailgunTransport {
   }
 
   sendDes(des) {
+    if (!des) return;
     if (des instanceof Array) {
       return des.reduce((prev, cur) => prev + ',' + cur);
     }

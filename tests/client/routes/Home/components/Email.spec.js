@@ -11,7 +11,7 @@ describe('(Component) Email', () => {
   beforeEach(() => {
     _spies = {};
     _props = {
-      mail : { email: 'test@gmail.com', errors: [] },
+      mail : { from: 'test@gmail.com', errors: [] },
       ...bindActionCreators({
         setEmail : (_spies.setEmail = sinon.spy()),
         subscribe   : (_spies.subscribe = sinon.spy())
@@ -25,13 +25,13 @@ describe('(Component) Email', () => {
   });
 
   it('Should render with an <h1> that includes Title.', () => {
-    expect(_wrapper.find('h1').text()).to.match(/Be the first one reading our Newsletter/);
+    expect(_wrapper.find('h1').text()).to.match(/Send Simple Email to Anyone/);
   });
 
   it('Should render props.email in textfield.', () => {
-    expect(_wrapper.find(TextField).prop('value')).to.match(/test@gmail.com/);
-    _wrapper.setProps({ mail: { email: 'mock@gmail.com' } });
-    expect(_wrapper.find(TextField).prop('value')).to.match(/mock@gmail.com/);
+    expect(_wrapper.find(TextField).first().prop('value')).to.match(/test@gmail.com/);
+    _wrapper.setProps({ mail: { from: 'mock@gmail.com' } });
+    expect(_wrapper.find(TextField).first().prop('value')).to.match(/mock@gmail.com/);
   });
 
   it('should render general error ', () => {
@@ -45,7 +45,7 @@ describe('(Component) Email', () => {
   });
 
   it('Should render textfield with hintText Email', () => {
-    expect(_wrapper.find(TextField).prop('hintText')).to.match(/Email/);
+    expect(_wrapper.find(TextField).first().prop('hintText')).to.match(/From/);
   });
 
   it('Should render exactly one button.', () => {
@@ -60,7 +60,7 @@ describe('(Component) Email', () => {
     });
 
     it('has label subscribe', () => {
-      expect(_button.prop('label')).to.match(/Subscribe/);
+      expect(_button.prop('label')).to.match(/Send/);
     });
 
     it('Should dispatch a `subscribe` action when clicked', () => {

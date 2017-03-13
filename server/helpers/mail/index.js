@@ -28,7 +28,11 @@ export default class MailTransport {
         })
         .then(({ response, body }) => {
           if (response.statusCode >= 300) {
-            reject(new Error(body.message));
+            let bd = body;
+            if (typeof body === 'string') {
+              bd = JSON.parse(body);
+            }
+            reject({ message: bd.message });
           }
           resolve(body.message);
         })
