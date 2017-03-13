@@ -20,9 +20,20 @@ export default class MailgunTransport {
   send(mailOptions) {
     const body = {
       from: mailOptions.from || this.from,
-      to: mailOptions.to,
+      to: this.sendDes(mailOptions.to),
       subject: mailOptions.subject
     };
+
+    // CC
+    if (mailOptions.cc) {
+      body.cc = this.sendDes(mailOptions.cc);
+    }
+
+    // BCC
+    if (mailOptions.bcc) {
+      body.bcc = this.sendDes(mailOptions.bcc);
+    }
+
     if (mailOptions.contentType === 'text/html') {
       body.html = mailOptions.content;
     } else {
@@ -36,4 +47,12 @@ export default class MailgunTransport {
       });
     });
   }
+
+  sendDes(des) {
+    if (des instanceof Array) {
+      return des.reduce((prev, cur) => prev + ',' + cur);
+    }
+    return des;
+  }
+
 };

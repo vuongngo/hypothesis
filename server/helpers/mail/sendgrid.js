@@ -22,11 +22,7 @@ export default class SendgridTransport {
     const body = {
       personalizations: [
         {
-          to: [
-            {
-              email: mailOptions.to
-            }
-          ],
+          to: this.sendDes(mailOptions.to),
           subject: mailOptions.subject
         }
       ],
@@ -40,6 +36,17 @@ export default class SendgridTransport {
         }
       ]
     };
+
+    // CC
+    if (mailOptions.cc) {
+      body.personalization[0].cc = this.sendDes(mailOptions.cc);
+    }
+
+    // BCC
+    if (mailOptions.bcc) {
+      body.personalization[0].bcc = this.sendDes(mailOptions.bcc);
+    }
+
     this.options.body = JSON.stringify(body);
     return new Promise((resolve, reject) => {
       request.post(this.options, (error, response, body) => {
@@ -47,6 +54,14 @@ export default class SendgridTransport {
         return resolve({ response, body });
       });
     });
+  }
+
+  sendDes(des) {
+    // Eg ['a@mail', 'b@mail']
+    if (des instanceof Array) {
+      return des.map((x) => {email: x});
+    }
+    return [{email: des}];
   }
 };
 
